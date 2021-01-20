@@ -15,7 +15,7 @@ class TasksController < ApplicationController
     
     if @task.save
       flash[:success] = 'Taskが正常に登録されました'
-      redirect_to @task
+      redirect_to @root_pah
     else
       flash.now[:danger] = 'Taskが登録されませんでした'
       render :new
