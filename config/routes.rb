@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   get 'sessions/new'
   get 'sessions/create'
   get 'sessions/destroy'
-  # もともとあった上２つは意味わかめだから消す
   #get 'users/new'
   #get 'users/create'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

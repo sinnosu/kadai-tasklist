@@ -1,8 +1,7 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  before_action :correct_user,only: [:destroy]
-  
+
   def index
     # @tasks = Task.order(id: :desc).page(params[:page]).per(5)
     # ログインユーザのタスクだけ表示するように変更
@@ -53,7 +52,7 @@ class TasksController < ApplicationController
   private
   
   def set_task
-     @task = Task.find(params[:id])
+     @task = current_user.tasks.find(params[:id])
   end
   
   # Strong Patameter
@@ -61,12 +60,4 @@ class TasksController < ApplicationController
     params.require(:task).permit(:content,:status)
   end
   
-  # before destroy , checking user belonging.
-  def correct_user
-    @task = current_user.tasks.find_by(id: params[:id])
-    unless @task
-      redirect_to root_url
-    end
-  end
-
 end
