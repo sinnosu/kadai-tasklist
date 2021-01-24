@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  #before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
 
   def index
     # @tasks = Task.order(id: :desc).page(params[:page]).per(5)
@@ -51,13 +52,23 @@ class TasksController < ApplicationController
 
   private
   
-  def set_task
-     @task = current_user.tasks.find(params[:id])
-  end
+  # set_taskはcorrect_userで代用
+  # def set_task
+  #   @task = Tasks.find(params[:id])
+  # end
   
   # Strong Patameter
   def task_params
     params.require(:task).permit(:content,:status)
   end
   
+  # check user belongs
+  # ここはfind_byで見つからない場合の処理を追加する。
+  def correct_user
+    @task = current_user.tasks.find_by(id: params[:id])
+    unless @task
+      redirect_to root_url
+    end
+  end
+
 end
